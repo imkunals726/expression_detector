@@ -28,13 +28,7 @@ model.add(Dropout(0.5))
 model.add(Dense(7, activation='softmax'))
 
 
-model.compile(loss='categorical_crossentropy',optimizer=keras.optimizers.Adam(lr=0.0001, decay=1e-6),metrics=['accuracy'])
-
-
-
 model.load_weights('emoji_weights_v1.h5')
-
-
 
 face_detector_onnx = "version-RFB-320.onnx"
 face_detector      = ort.InferenceSession(face_detector_onnx)
