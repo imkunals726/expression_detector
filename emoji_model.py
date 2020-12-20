@@ -18,7 +18,7 @@ def get_emoji_model(pretrained=False):
     model.add(Dense(7, activation='softmax'))
 
 
-    if pretrained:model.load_weights('emoji_weights_v1.h5')
+    if pretrained:model.load_weights('models/emoji_weights_v1.h5')
     return model
 
 

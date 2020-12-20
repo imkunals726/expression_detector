@@ -13,7 +13,7 @@ from   utils 		       import predict_class
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
 model              = get_emoji_model(pretrained=True)
-face_detector_onnx = "version-RFB-320.onnx"
+face_detector_onnx = "models/version-RFB-320.onnx"
 face_detector      = ort.InferenceSession(face_detector_onnx)
 
 def face_box(image):
