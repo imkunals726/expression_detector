@@ -1,44 +1,20 @@
 import cv2
-import onnxruntime as ort
+import onnxruntime            as ort
 import argparse, copy
-import numpy as np
-import matplotlib.pyplot as plt
-import tensorflow as tf
+import numpy                  as np
+import matplotlib.pyplot      as plt
+import tensorflow             as tf
 import os
-
+import tensorflow.keras       as keras
+from   tensorflow.keras.layers import *
+from   emoji_model             import get_emoji_model
+from   utils 		       import predict_class
 #This is for mac you can comment it if you want
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
-import tensorflow.keras as keras
-from  tensorflow.keras.layers import *
-
-model = keras.models.Sequential()
-model.add(Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=(48,48,1)))
-model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.25))
-model.add(Conv2D(128, kernel_size=(3, 3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Conv2D(128, kernel_size=(3, 3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.25))
-model.add(Flatten())
-model.add(Dense(1024, activation='relu'))
-model.add(Dropout(0.5))
-model.add(Dense(7, activation='softmax'))
-
-
-model.load_weights('emoji_weights_v1.h5')
-
+model              = get_emoji_model(pretrained=True)
 face_detector_onnx = "version-RFB-320.onnx"
 face_detector      = ort.InferenceSession(face_detector_onnx)
-
-
-def predict_class(roi_img, model):
-    emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Fearful", 3: "Happy", 4: "Neutral", 5: "Sad", 6: "Surprised"}
-    cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_img, (48,48)), -1),0)
-    pred_class = model.predict_classes(cropped_img)
-    return emotion_dict[pred_class[0]]
 
 def face_box(image):
     height   = image.shape[0]
