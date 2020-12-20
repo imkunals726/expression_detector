@@ -32,11 +32,11 @@ model.compile(loss='categorical_crossentropy',optimizer=keras.optimizers.Adam(lr
 
 
 
-model.load_weights('/Users/Kunal/Downloads/emoji_weights_v1.h5')
+model.load_weights('emoji_weights_v1.h5')
 
 
 
-face_detector_onnx = "/Users/Kunal/Downloads/version-RFB-320.onnx"
+face_detector_onnx = "version-RFB-320.onnx"
 face_detector      = ort.InferenceSession(face_detector_onnx)
 
 
